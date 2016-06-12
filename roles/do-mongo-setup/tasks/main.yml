@@ -1,0 +1,29 @@
+---
+- name: Add mongodb repo
+  yum_repository:
+    name: epel
+    description: EPEL YUM repo
+    baseurl: https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/3.2/x86_64/
+    gpgcheck: yes
+    gpgkey: https://www.mongodb.org/static/pgp/server-3.2.asc
+
+
+- name: installing mongodb package
+  yum: name={{ item }} state=latest
+  with_items:
+    - mongodb-org 
+    - mongodb-org-server
+
+
+- name: make sure /etc/ssl/mongodb/ directory exisits on remote server 
+  file:
+    path: /etc/ssl/mongodb/
+    state: directory
+
+
+- name: copy pem file to dest  location
+  copy:
+    src: mongodb.pem
+    dest: /etc/ssl/mongodb/
+    mode: 0644
+

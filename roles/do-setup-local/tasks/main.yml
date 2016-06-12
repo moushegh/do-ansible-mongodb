@@ -1,0 +1,13 @@
+---
+- name: make sure /etc/ssl/mongodb/ directory exisits on remote server 
+  file:
+    path: /etc/ssl/mongodb/
+    state: directory
+
+
+- name: generating Cert file for later usage
+  command: openssl req -new -nodes -x509 -subj "/C=DE/ST=BAYERN/L=MUNICH/O=INFRA/CN=*.web.zooplus.de" -days 3650 -keyout /etc/ssl/mongodb/mongodb.key -out /etc/ssl/mongodb/mongodb.crt -extensions v3_ca creates=/etc/ssl/mongodb/mongodb.crt
+
+
+- name: generating PEM based on Cert files
+  shell: cat /etc/ssl/mongodb/mongodb.key /etc/ssl/mongodb/mongodb.crt > /etc/ansible/roles/do-mongo-setup/files/mongodb.pem creates=/etc/ansible/roles/do-mongo-setup/files/mongodb.pem

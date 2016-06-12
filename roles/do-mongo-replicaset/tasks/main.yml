@@ -1,0 +1,42 @@
+
+- name: setup config
+  template:
+    src:  mongod.yml.j2
+    dest: "{{mongodb_conf}}"
+
+- name: verify mongodb dbpath
+  file:
+    dest: "{{mongodb_dbpath}}"
+    state: directory
+    owner: mongod
+    group: mongod
+
+- name: remove init from install
+  file:
+    path: /etc/init.d/mongod
+    state: absent
+
+
+- name: copy init config
+  template:
+    src:  mongod-init.conf.j2
+    dest: "/etc/systemd/system/{{mongodb_init}}.service"
+    mode: 0777
+
+- name: reloate service after init copy
+  command: systemctl daemon-reload
+
+- name: start mongodb service
+  service:
+    name: mongod
+    state: running
+
+
+- name: wait for mongodb instance
+  wait_for:
+    state: started
+    host: localhost
+    port: "{{mongodb_port}}"
+
+- include: setup.yml
+  when: setup

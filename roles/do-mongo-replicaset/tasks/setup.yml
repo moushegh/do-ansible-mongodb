@@ -1,0 +1,18 @@
+- name: check replcaSet status
+  command: /usr/bin/mongo --port "{{mongodb_port}}" --ssl --sslPEMKeyFile=/etc/ssl/mongodb/mongodb.pem --sslAllowInvalidHostnames --sslAllowInvalidCertificates --eval "print(rs.status().ok)" --quiet
+  ignore_errors: yes
+  register: mongodb_replicaset_status
+  changed_when: False
+
+- set_fact:
+    mongodb_replset_nok: mongodb_replicaset_status.stdout != "1"
+
+- name: replicaSet init template
+  template:
+    src: replset.init.js.j2
+    dest: /tmp/replset.init.js
+  when: mongodb_replset_nok
+
+- name: replicaSet init
+  command: /usr/bin/mongo --ssl --sslPEMKeyFile=/etc/ssl/mongodb/mongodb.pem --sslAllowInvalidHostnames --sslAllowInvalidCertificates --port "{{mongodb_port}}"  /tmp/replset.init.js
+  when: mongodb_replset_nok

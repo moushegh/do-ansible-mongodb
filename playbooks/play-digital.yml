@@ -1,0 +1,58 @@
+- hosts: localhost
+  connection: local
+
+  vars:
+    state: present
+    env: "prod"
+    droplets:
+    - mongodb01
+    - mongodb02
+    - mongodb03
+    do_token:  "{{ lookup('env','DO_API_KEY') }}"
+    vm_image_id: 16040476
+    vm_image_size: 512mb
+
+  roles:
+    - role: do-ssh-key
+    - role: do-provision
+    - role: do-setup-local
+
+
+- hosts: all
+  sudo: true
+  gather_facts: True
+
+  roles:
+    - role: do-setup
+      do_packages:
+        - mc
+        - git
+        - openssl
+        - mlocate
+        - ntp
+        - strace
+
+- hosts: all
+  sudo: true
+  gather_facts: True
+
+  roles:
+
+    - role: do-mongo-setup
+    - role: do-mongo-replicaset
+      setup: False
+
+
+- hosts: all[1]
+  sudo: true
+  gather_facts: True
+
+  roles:
+
+    - role: do-mongo-replicaset
+      setup: True
+      mongodb_hosts: "{{ groups.mongodb_hosts }}"
+
+
+
+

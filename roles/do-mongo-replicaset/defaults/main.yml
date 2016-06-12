@@ -1,0 +1,11 @@
+
+mongodb_init: mongod
+mongodb_conf: /etc/mongod.yml
+mongodb_pidfile: /var/run/mongodb/mongodb.pid
+mongodb_port: 27017
+mongodb_dbpath: /opt/mongodb/
+
+mongodb_replSetName: replSet
+mongodb_hosts: [ ]
+
+setup: false

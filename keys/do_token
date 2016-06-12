@@ -1,0 +1,5 @@
+[digital_ocean]
+api_token=$YOUR_TOKEN_HERE
+DO_API_KEY=$YOUR_TOKEN_HERE
+DO_API_TOKEN=$YOUR_TOKEN_HER
+

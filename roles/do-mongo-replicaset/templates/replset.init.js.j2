@@ -1,0 +1,13 @@
+var index = 1;
+var res = rs.initiate({
+    _id: "{{mongodb_replSetName}}",
+    members: [
+{% for host in mongodb_hosts %}
+        {
+            _id: index++,
+            host: "{{host}}:{{mongodb_port}}",
+        },
+{% endfor %}
+    ]
+});
+quit((res && res.ok == true) ? 0 : 1);

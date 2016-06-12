@@ -1,0 +1,27 @@
+systemLog:
+   destination: file
+   path: "/var/log/mongodb/mongod.log"
+   logAppend: true
+
+
+processManagement:
+    pidFilePath: {{mongodb_pidfile}}
+
+net:
+    port: {{mongodb_port}}
+    ipv6: false
+    http:
+        enabled: false
+
+storage:
+    dbPath: {{mongodb_dbpath}}
+    journal:
+        enabled: false
+
+replication:
+    replSetName: {{mongodb_replSetName}}
+
+net:
+   ssl:
+      mode: requireSSL
+      PEMKeyFile: /etc/ssl/mongodb/mongodb.pem

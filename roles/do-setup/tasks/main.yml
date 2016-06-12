@@ -1,0 +1,10 @@
+---
+- name: installing packages
+  yum: name={{ item }} state=latest
+  with_items: "{{ do_packages }}"
+
+- name: start ntp service
+  service:
+    name: ntpd
+    state: running
+
