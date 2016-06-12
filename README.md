@@ -1,15 +1,16 @@
-Ansible roles-playbooks to start mongodb-tls eanbled replica set at digital ocean
+# Ansible roles and playbook to run 3 node TLS enabled cluster at digital-ocean
+to run you need to have ansible 2.0+ with all extra moduels enabled.
 
-git checkout THIS_REPO to /etc/ansible/
+```git clone this repo to /etc/ansible/ ```
 
-make sure you entered your digital oceal TOKEN_ID in key/do_token
+```edit /etc/ansible/keys/do_keys and add your digital ocean token ID```
 
-make sure to edit your .gitignore and remove all token file likes (for example in inventlory/*.ini)
+```
+$cd /etc/ansible
+$source ./init.sh prod (dev or test)```
+$ansible-playbook playbooks/play-digital.yml
+$ansible-playbook playbooks/play-digital.yml
+```
 
-to run :
-
-cd /etc/ansible
-source ./init.sh prod (i suppose we run on prod...)
-ansible-playbook playbooks/play-digital.yml
-
-
+# todos
+add backup/restore stupport 
