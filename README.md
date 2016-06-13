@@ -1,4 +1,4 @@
-# Ansible roles and playbook to run 3 node TLS enabled cluster at digital-ocean
+# Ansible roles and playbook to run 3 node TLS enabled mongodb cluster at digital-ocean
 to run you need to have ansible 2.0+ with all extra moduels enabled.
 
 ```git clone this repo to /etc/ansible/ ```
